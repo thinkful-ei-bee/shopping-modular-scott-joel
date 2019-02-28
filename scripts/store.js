@@ -28,12 +28,12 @@ const store = (function() {
   };
 
   const findAndToggleChecked = function(id) {
-    this.findById(id).checked = true;
+    this.findById(id).checked = !this.findById(id).checked;
   };
 
   const findAndUpdateName = function(id, newName) {
     try {
-      Item.validateName(name);
+      Item.validateName(newName);
       this.findById(id).name = newName;
     } 
     catch(error) {

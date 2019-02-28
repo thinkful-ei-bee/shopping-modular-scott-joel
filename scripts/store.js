@@ -1,4 +1,5 @@
 'use strict';
+/* global cuid Item */
 
 const store = (function() {
   const foo = 'bar';
@@ -11,11 +12,48 @@ const store = (function() {
   ];
   const hideCheckedItems = false;
   const searchTerm = '';
+
+  const findById = function(id) {
+    return items.find( element => element.id === id);
+  };
+
+  const addItem = function(name) {
+    try {
+      Item.validateName(name);
+      this.items.push(Item.create(name));
+    }
+    catch(error) {
+      console.log(`store.addItem(): ${error.message}`);
+    }
+  };
+
+  const findAndToggleChecked = function(id) {
+    this.findById(id).checked = true;
+  };
+
+  const findAndUpdateName = function(id, newName) {
+    try {
+      Item.validateName(name);
+      this.findById(id).name = newName;
+    } 
+    catch(error) {
+      console.log(`store.findAndUpdateName(): ${error.message}`);
+    }
+  };
+
+  const findAndDelete = function(id) {
+    this.items = this.items.filter(element => element.id !== id );
+  };
   
   return {
     items, 
     hideCheckedItems,
     searchTerm,
+    findById,
+    addItem,
+    findAndToggleChecked,
+    findAndUpdateName,
+    findAndDelete,
   };
 
 }() );
